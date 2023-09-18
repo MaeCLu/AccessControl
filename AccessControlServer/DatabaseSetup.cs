@@ -22,7 +22,7 @@ public class DatabaseSetup
         {
             // Reconstruct the connectionString using the sqlserver server name
             ConnectionString = DatabaseConnection.CheckOrReplaceConnectionServerName(ConnectionString);
-            if(!string.IsNullOrWhiteSpace(ConnectionString))
+            if (!string.IsNullOrWhiteSpace(ConnectionString))
             {
                 DatabaseName = DatabaseConnection.ExtractDatabaseName(ConnectionString);
                 SetupDatabaseAndTables();
@@ -104,5 +104,4 @@ public class DatabaseSetup
             throw new Exception("Database setup failed", ex);
         }
     }
-
 }

@@ -8,18 +8,18 @@ namespace AccessControlServer.Controllers;
 public class EventsController : Controller
 {
     private ILogger<EventsController> m_logger;
+    private IEventsService m_service;
 
-    public EventsController(ILogger<EventsController> logger)
+    public EventsController(ILogger<EventsController> logger, IEventsService service)
     {
         m_logger = logger;
+        m_service = service;
     }
 
     [HttpGet("events", Name = "GetEvents")]
     [Produces("application/json")]
     public ActionResult GetEvents()
     {
-       // var settings = m_configService.GetBasicDiagnosticSettings();
-        // Since this endpoint is unauthenticated - to avoid information disclosure, only return public settings.
-        return Ok();
+        return Ok(m_service.GetEvents());
     }
 }

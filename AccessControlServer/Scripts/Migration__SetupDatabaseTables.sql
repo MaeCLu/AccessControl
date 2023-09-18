@@ -1,0 +1,32 @@
+SET NOCOUNT ON
+GO
+
+IF DB_ID('AccessControl') IS NOT NULL AND ('$(SQLCMDDBNAME)' IN ('', 'master') OR SUBSTRING('$(SQLCMDDBNAME)', 1, 1) = '$')
+	USE [AccessControl]
+GO
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE Name = 'Event' And Type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].Event(
+    [Id] INT IDENTITY(1,1),
+	[Message] [NVARCHAR](2048) NULL,
+	[Details] [NVARCHAR](MAX) NULL,
+	[ArrivalTime] DATETIME NOT NULL DEFAULT GETUTCDATE(),
+	PRIMARY KEY CLUSTERED 
+	(
+		[Id] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+GO
+
+IF 0 = (SELECT COUNT(*) FROM Event )
+BEGIN
+    DECLARE @i int
+    SET @i = 1
+	WHILE(@i <= 30)
+	BEGIN
+		INSERT INTO [Event]([Message], [Details]) VALUES(CONCAT('Test Event ', @i), CONCAT('Running Event ', @i))
+		SET @i = @i + 1
+	END
+END
+GO

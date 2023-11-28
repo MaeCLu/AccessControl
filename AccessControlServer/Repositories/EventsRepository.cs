@@ -37,6 +37,7 @@ namespace AccessControlServer.Repositories
                 while (reader.Read())
                 {
                     events.Add(new Events() { 
+                        EventType = reader[AccessControlConstants.EventType].ToString() ?? "",
                         Message = reader[AccessControlConstants.Message].ToString() ?? "", 
                         Details = reader[AccessControlConstants.Details].ToString() ?? "", 
                         ArrivalTime = (DateTime)reader[AccessControlConstants.ArrivalTime] 

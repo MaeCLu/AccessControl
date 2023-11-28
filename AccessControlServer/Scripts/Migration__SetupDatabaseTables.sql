@@ -4,10 +4,36 @@ GO
 IF DB_ID('AccessControl') IS NOT NULL AND ('$(SQLCMDDBNAME)' IN ('', 'master') OR SUBSTRING('$(SQLCMDDBNAME)', 1, 1) = '$')
 	USE [AccessControl]
 GO
+
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE Name = 'EventType' And Type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].EventType(
+    [Id] INT IDENTITY(1,1),
+	[Name] [NVARCHAR](50) NULL,
+	PRIMARY KEY CLUSTERED 
+	(
+		[Id] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+GO
+IF 0 = (SELECT COUNT(*) FROM EventType )
+BEGIN
+    DECLARE @i int
+    SET @i = 1
+	WHILE(@i <= 2)
+	BEGIN
+		INSERT INTO EventType([Name]) VALUES(CONCAT('Event Type ', @i))
+		SET @i = @i + 1
+	END
+END
+GO
+
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE Name = 'Event' And Type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].Event(
     [Id] INT IDENTITY(1,1),
+	[EventTypeId] INT FOREIGN KEY REFERENCES EventType(Id),
 	[Message] [NVARCHAR](2048) NULL,
 	[Details] [NVARCHAR](MAX) NULL,
 	[ArrivalTime] DATETIME NOT NULL DEFAULT GETUTCDATE(),
@@ -15,7 +41,7 @@ CREATE TABLE [dbo].Event(
 	(
 		[Id] ASC
 	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-	) ON [PRIMARY]
+	) ON [PRIMARY]	
 END
 GO
 
@@ -25,7 +51,7 @@ BEGIN
     SET @i = 1
 	WHILE(@i <= 30)
 	BEGIN
-		INSERT INTO [Event]([Message], [Details]) VALUES(CONCAT('Test Event ', @i), CONCAT('Running Event ', @i))
+		INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, CONCAT('Test Event ', @i), CONCAT('Running Event ', @i))
 		SET @i = @i + 1
 	END
 END

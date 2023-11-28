@@ -12,5 +12,5 @@ GO
 CREATE PROCEDURE spGetEvents
 AS
     SET NOCOUNT ON
-	SELECT [Message],  [Details], [Arrivaltime] FROM Event
+	SELECT et.[Name] EventType, [Message],  [Details], [Arrivaltime] FROM Event e INNER JOIN EventType et ON e.EventTypeId = et.Id
 GO

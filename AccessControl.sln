@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControlServer", "AccessControlServer\AccessControlServer.csproj", "{FC186C3D-375E-49EB-A5BA-05B8E4119812}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlServer", "AccessControlServer\AccessControlServer.csproj", "{FC186C3D-375E-49EB-A5BA-05B8E4119812}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControlServer.Test", "AccessControlServer.Test\AccessControlServer.Test.csproj", "{12197944-E4A9-48CB-ABD8-C123E1D899CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{FC186C3D-375E-49EB-A5BA-05B8E4119812}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC186C3D-375E-49EB-A5BA-05B8E4119812}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC186C3D-375E-49EB-A5BA-05B8E4119812}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12197944-E4A9-48CB-ABD8-C123E1D899CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12197944-E4A9-48CB-ABD8-C123E1D899CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12197944-E4A9-48CB-ABD8-C123E1D899CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12197944-E4A9-48CB-ABD8-C123E1D899CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,6 +9,7 @@ namespace AccessControlServer.Repositories
     public interface IEventsRepository
     {
         List<Events> GetEvents();
+        List<EventsPerYear> GetEventsPerMonthForAYear();
     }
     public class EventsRepository : IEventsRepository
     {
@@ -36,7 +37,8 @@ namespace AccessControlServer.Repositories
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    events.Add(new Events() { 
+                    events.Add(new Events() {
+                        Id = reader[AccessControlConstants.Id].ToString() ?? "0",
                         EventType = reader[AccessControlConstants.EventType].ToString() ?? "",
                         Message = reader[AccessControlConstants.Message].ToString() ?? "", 
                         Details = reader[AccessControlConstants.Details].ToString() ?? "", 
@@ -45,6 +47,29 @@ namespace AccessControlServer.Repositories
                 }
             }
             return events;
+        }
+
+        public List<EventsPerYear> GetEventsPerMonthForAYear()
+        {
+            var eventsPerYear = new List<EventsPerYear>();
+            using (SqlConnection con = new SqlConnection(m_getDbConnection().ConnectionString))
+            using (SqlCommand cmd = new SqlCommand("spGetEventsPerMonthForAYear", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    eventsPerYear.Add(new EventsPerYear()
+                    {
+                        Year = reader[AccessControlConstants.Year].ToString() ?? "2024",
+                        Month = reader[AccessControlConstants.Month].ToString() ?? "3",
+                        EventType = reader[AccessControlConstants.EventType].ToString() ?? "",
+                        Total = reader[AccessControlConstants.Total].ToString() ?? "0",
+                    });
+                }
+            }
+            return eventsPerYear;
         }
     }
 }

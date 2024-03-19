@@ -19,13 +19,9 @@ END
 GO
 IF 0 = (SELECT COUNT(*) FROM EventType )
 BEGIN
-    DECLARE @i int
-    SET @i = 1
-	WHILE(@i <= 2)
-	BEGIN
-		INSERT INTO EventType([Name]) VALUES(CONCAT('Event Type ', @i))
-		SET @i = @i + 1
-	END
+	INSERT INTO EventType([Name]) VALUES('High')
+	INSERT INTO EventType([Name]) VALUES('Medium')
+	INSERT INTO EventType([Name]) VALUES('Low')
 END
 GO
 
@@ -47,12 +43,38 @@ GO
 
 IF 0 = (SELECT COUNT(*) FROM Event )
 BEGIN
-    DECLARE @i int
-    SET @i = 1
-	WHILE(@i <= 30)
-	BEGIN
-		INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, CONCAT('Test Event ', @i), CONCAT('Running Event ', @i))
-		SET @i = @i + 1
-	END
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Service is down', 'Event service is down')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(2, 'Api failure', 'Get event api failed')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Network too slow', 'Processing of requests are taking a while')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Failed service startup', 'Event service failed to startup')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Network is down', 'Local network is not accessible')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(2, 'Request queue is getting large', 'Event service requests are large')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Low speed connection', 'Network is slow')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Api not getting data', 'Event API is returning no data')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Authentication failed', 'User failure authentication')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Access Denied', 'User 1 is access denied')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Login lockout', 'User 1 login is locked out')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Service is down', 'Event service is down')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(2, 'Api failure', 'Get event api failed')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Network too slow', 'Processing of requests are taking a while')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Failed service startup', 'Event service failed to startup')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Network is down', 'Local network is not accessible')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(2, 'Request queue is getting large', 'Event service requests are large')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Low speed connection', 'Network is slow')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Api not getting data', 'Event API is returning no data')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Authentication failed', 'User failure authentication')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Access Denied', 'User 1 is access denied')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Login lockout', 'User 1 login is locked out')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Service is down', 'Event service is down')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(2, 'Api failure', 'Get event api failed')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Network too slow', 'Processing of requests are taking a while')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Failed service startup', 'Event service failed to startup')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Network is down', 'Local network is not accessible')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(2, 'Request queue is getting large', 'Event service requests are large')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Low speed connection', 'Network is slow')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Api not getting data', 'Event API is returning no data')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Authentication failed', 'User failure authentication')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Access Denied', 'User 1 is access denied')
+	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Login lockout', 'User 1 login is locked out')
 END
 GO

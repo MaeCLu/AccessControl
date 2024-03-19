@@ -10,6 +10,7 @@
     <None Remove="Scripts\Migration__CreateDatabase.sql" />
     <None Remove="Scripts\Migration__SetupDatabaseTables.sql" />
     <None Remove="Scripts\Migration__spGetEvents.sql" />
+    <None Remove="Scripts\Migration__spGetEventsPerMonthForAYear.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +26,7 @@
     <EmbeddedResource Include="Scripts\Migration__SetupDatabaseTables.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\Migration__spGetEventsPerMonthForAYear.sql" />
     <EmbeddedResource Include="Scripts\Migration__spGetEvents.sql" />
   </ItemGroup>
 

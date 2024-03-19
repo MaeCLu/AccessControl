@@ -6,8 +6,10 @@ using System.Reflection.PortableExecutable;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-// Add services to the container.
+builder.Services.AddCors(p => p.AddPolicy("devCorsPolicy", builder =>
+{
+    builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(origin => true);
+}));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,6 +28,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("devCorsPolicy");
+} else
+{
+    app.UseCors();
 }
 
 app.UseHttpsRedirection();

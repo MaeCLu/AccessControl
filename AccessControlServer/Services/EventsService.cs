@@ -7,6 +7,7 @@ namespace AccessControlServer;
 public interface IEventsService
 {
     List<Events> GetEvents();
+    List<EventsPerYear> GetEventsPerMonthForAYear();
 }
 public class EventsService : IEventsService
 {
@@ -21,4 +22,10 @@ public class EventsService : IEventsService
     {
         return m_repository.GetEvents();
     }
+
+    public List<EventsPerYear> GetEventsPerMonthForAYear()
+    {
+        return m_repository.GetEventsPerMonthForAYear();
+    }
+    
 }

@@ -4,6 +4,9 @@ namespace AccessControlServer.Models;
 
 public class Events
 {
+    [JsonProperty(PropertyName = "id")]
+    public string Id { get; set; } = "";
+
     [JsonProperty(PropertyName = "eventtype")]
     public string EventType { get; set; } = "";
 

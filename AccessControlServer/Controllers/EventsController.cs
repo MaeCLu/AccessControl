@@ -22,4 +22,11 @@ public class EventsController : Controller
     {
         return Ok(m_service.GetEvents());
     }
+
+    [HttpGet("eventsPerMonthCurrentYear", Name = "GetEventsPerMonthForAYear")]
+    [Produces("application/json")]
+    public ActionResult GetEventsPerMonthForAYear()
+    {
+        return Ok(m_service.GetEventsPerMonthForAYear());
+    }
 }

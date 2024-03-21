@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AccessControlServer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccessControlServer.Controllers;
@@ -28,5 +29,14 @@ public class EventsController : Controller
     public ActionResult GetEventsPerMonthForAYear()
     {
         return Ok(m_service.GetEventsPerMonthForAYear());
+    }
+
+    [HttpPost("GenerateAccessGranted", Name = "GenerateAccessGranted")]
+    [AllowAnonymous]
+    public async Task<ActionResult> GrantAccess([FromBody] EventModel e)
+    {
+        m_service.GenerateAccessGranted(e);
+        return Ok();
+
     }
 }

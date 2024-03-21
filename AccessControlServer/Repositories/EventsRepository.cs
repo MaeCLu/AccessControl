@@ -8,8 +8,9 @@ namespace AccessControlServer.Repositories
 {
     public interface IEventsRepository
     {
-        List<Events> GetEvents();
+        List<Event> GetEvents();
         List<EventsPerYear> GetEventsPerMonthForAYear();
+        bool PostEvent(EventModel evt);
     }
     public class EventsRepository : IEventsRepository
     {
@@ -26,9 +27,9 @@ namespace AccessControlServer.Repositories
             m_logger = logger;
         }
 
-        public List<Events> GetEvents()
+        public List<Event> GetEvents()
         {
-            var events = new List<Events>();
+            var events = new List<Event>();
             using (SqlConnection con = new SqlConnection(m_getDbConnection().ConnectionString))
             using (SqlCommand cmd = new SqlCommand("spGetEvents", con))
             {
@@ -37,9 +38,9 @@ namespace AccessControlServer.Repositories
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    events.Add(new Events() {
+                    events.Add(new Event() {
                         Id = reader[AccessControlConstants.Id].ToString() ?? "0",
-                        EventType = reader[AccessControlConstants.EventType].ToString() ?? "",
+                        Severity = reader[AccessControlConstants.Severity].ToString() ?? "",
                         Message = reader[AccessControlConstants.Message].ToString() ?? "", 
                         Details = reader[AccessControlConstants.Details].ToString() ?? "", 
                         ArrivalTime = (DateTime)reader[AccessControlConstants.ArrivalTime] 
@@ -47,6 +48,23 @@ namespace AccessControlServer.Repositories
                 }
             }
             return events;
+        }
+
+        public bool PostEvent(EventModel evt)
+        {
+            using (SqlConnection con = new SqlConnection(m_getDbConnection().ConnectionString))
+            using (SqlCommand cmd = new SqlCommand("spPostEvents", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@SeverityId", SqlDbType.Int).Value = evt.SeverityId;
+                cmd.Parameters.Add("@Message", SqlDbType.VarChar).Value = evt.Message;
+                cmd.Parameters.Add("@Details", SqlDbType.VarChar).Value = evt.Details;
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+            return true;
         }
 
         public List<EventsPerYear> GetEventsPerMonthForAYear()
@@ -64,7 +82,7 @@ namespace AccessControlServer.Repositories
                     {
                         Year = reader[AccessControlConstants.Year].ToString() ?? "2024",
                         Month = reader[AccessControlConstants.Month].ToString() ?? "3",
-                        EventType = reader[AccessControlConstants.EventType].ToString() ?? "",
+                        Severity = reader[AccessControlConstants.Severity].ToString() ?? "",
                         Total = reader[AccessControlConstants.Total].ToString() ?? "0",
                     });
                 }

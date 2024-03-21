@@ -10,8 +10,8 @@ namespace AccessControlServer.Models
         [JsonProperty(PropertyName = "month")]
         public string Month { get; set; } = "3";
 
-        [JsonProperty(PropertyName = "eventType")]
-        public string EventType { get; set; } = "";
+        [JsonProperty(PropertyName = "severity")]
+        public string Severity { get; set; } = "";
 
         [JsonProperty(PropertyName = "total")]
         public string Total { get; set; } = "";

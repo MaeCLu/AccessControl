@@ -2,7 +2,7 @@
 
 namespace AccessControlServer.Models;
 
-public class EventType
+public class Severity
 {
     [JsonProperty(PropertyName = "id")]
     public string Id { get; set; } = "";

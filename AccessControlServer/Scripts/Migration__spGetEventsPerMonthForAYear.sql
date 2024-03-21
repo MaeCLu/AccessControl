@@ -15,10 +15,10 @@ AS
 
 	SELECT YEAR(e.ArrivalTime) AS year,
        MONTH(e.ArrivalTime) AS month,
-	   et.Name AS EventType,
+	   et.Name AS Severity,
        COUNT(*) AS Total
 	FROM   Event e 
-	INNER JOIN EventType et ON e.EventTypeId = et.Id
+	INNER JOIN Severity et ON e.SeverityId = et.Id
 	WHERE  YEAR(e.ArrivalTime) = YEAR(GETDATE())
 	GROUP BY
        MONTH(e.ArrivalTime),

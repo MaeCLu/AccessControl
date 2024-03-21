@@ -5,9 +5,9 @@ IF DB_ID('AccessControl') IS NOT NULL AND ('$(SQLCMDDBNAME)' IN ('', 'master') O
 	USE [AccessControl]
 GO
 
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE Name = 'EventType' And Type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE Name = 'Severity' And Type in (N'U'))
 BEGIN
-CREATE TABLE [dbo].EventType(
+CREATE TABLE [dbo].Severity(
     [Id] INT IDENTITY(1,1),
 	[Name] [NVARCHAR](50) NULL,
 	PRIMARY KEY CLUSTERED 
@@ -17,11 +17,12 @@ CREATE TABLE [dbo].EventType(
 	) ON [PRIMARY]
 END
 GO
-IF 0 = (SELECT COUNT(*) FROM EventType )
+
+IF 0 = (SELECT COUNT(*) FROM Severity )
 BEGIN
-	INSERT INTO EventType([Name]) VALUES('High')
-	INSERT INTO EventType([Name]) VALUES('Medium')
-	INSERT INTO EventType([Name]) VALUES('Low')
+	INSERT INTO Severity([Name]) VALUES('Low')
+	INSERT INTO Severity([Name]) VALUES('Medium')
+	INSERT INTO Severity([Name]) VALUES('High')
 END
 GO
 
@@ -29,7 +30,7 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE Name = 'Event' And Type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].Event(
     [Id] INT IDENTITY(1,1),
-	[EventTypeId] INT FOREIGN KEY REFERENCES EventType(Id),
+	[SeverityId] INT FOREIGN KEY REFERENCES Severity(Id),
 	[Message] [NVARCHAR](2048) NULL,
 	[Details] [NVARCHAR](MAX) NULL,
 	[ArrivalTime] DATETIME NOT NULL DEFAULT GETUTCDATE(),
@@ -43,38 +44,38 @@ GO
 
 IF 0 = (SELECT COUNT(*) FROM Event )
 BEGIN
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Service is down', 'Event service is down')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(2, 'Api failure', 'Get event api failed')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Network too slow', 'Processing of requests are taking a while')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Failed service startup', 'Event service failed to startup')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Network is down', 'Local network is not accessible')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(2, 'Request queue is getting large', 'Event service requests are large')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Low speed connection', 'Network is slow')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Api not getting data', 'Event API is returning no data')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Authentication failed', 'User failure authentication')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Access Denied', 'User 1 is access denied')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Login lockout', 'User 1 login is locked out')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Service is down', 'Event service is down')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(2, 'Api failure', 'Get event api failed')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Network too slow', 'Processing of requests are taking a while')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Failed service startup', 'Event service failed to startup')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Network is down', 'Local network is not accessible')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(2, 'Request queue is getting large', 'Event service requests are large')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Low speed connection', 'Network is slow')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Api not getting data', 'Event API is returning no data')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Authentication failed', 'User failure authentication')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Access Denied', 'User 1 is access denied')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Login lockout', 'User 1 login is locked out')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Service is down', 'Event service is down')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(2, 'Api failure', 'Get event api failed')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Network too slow', 'Processing of requests are taking a while')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Failed service startup', 'Event service failed to startup')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Network is down', 'Local network is not accessible')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(2, 'Request queue is getting large', 'Event service requests are large')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Low speed connection', 'Network is slow')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(3, 'Api not getting data', 'Event API is returning no data')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Authentication failed', 'User failure authentication')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Access Denied', 'User 1 is access denied')
-	INSERT INTO [Event](EventTypeId, [Message], [Details]) VALUES(1, 'Login lockout', 'User 1 login is locked out')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(2, 'Failed: Denied Access', 'User 1 is denied access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(3, 'Failed: User Locked out', 'User 1 is locked out to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(2, 'Failed: Denied Access', 'User 1 is denied access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(3, 'Failed: User Locked out', 'User 1 is locked out to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(3, 'Failed: User Locked out', 'User 1 is locked out to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(2, 'Failed: Denied Access', 'User 1 is denied access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(3, 'Failed: User Locked out', 'User 1 is locked out to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(2, 'Failed: Denied Access', 'User 1 is denied access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(3, 'Failed: User Locked out', 'User 1 is locked out to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(3, 'Failed: User Locked out', 'User 1 is locked out to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(2, 'Failed: Denied Access', 'User 1 is denied access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(3, 'Failed: User Locked out', 'User 1 is locked out to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(2, 'Failed: Denied Access', 'User 1 is denied access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(3, 'Failed: User Locked out', 'User 1 is locked out to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(3, 'Failed: User Locked out', 'User 1 is locked out to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
+	INSERT INTO [Event](SeverityId, [Message], [Details]) VALUES(1, 'Success : Granted Access', 'User 1 is granted access to door 1.')
 END
 GO

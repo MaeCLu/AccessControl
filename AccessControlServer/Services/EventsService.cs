@@ -6,8 +6,9 @@ namespace AccessControlServer;
 
 public interface IEventsService
 {
-    List<Events> GetEvents();
+    List<Event> GetEvents();
     List<EventsPerYear> GetEventsPerMonthForAYear();
+    void GenerateAccessGranted(EventModel evt);
 }
 public class EventsService : IEventsService
 {
@@ -18,7 +19,7 @@ public class EventsService : IEventsService
         m_repository = repository;
     }
 
-    public List<Events> GetEvents()
+    public List<Event> GetEvents()
     {
         return m_repository.GetEvents();
     }
@@ -27,5 +28,12 @@ public class EventsService : IEventsService
     {
         return m_repository.GetEventsPerMonthForAYear();
     }
+
+    public void GenerateAccessGranted(EventModel evt)
+    {
+        m_repository.PostEvent(evt);
+    }
+
     
+
 }
